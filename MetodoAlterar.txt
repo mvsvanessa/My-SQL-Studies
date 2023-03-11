@@ -1,0 +1,26 @@
+public boolean alterarProduto() {
+	//Criação do comando a ser executado no banco de dados
+	String comandoSQL = "UPDATE tb_produto SET nome_produto='Lasanha' , categoria_produto='Congelados' WHERE id_produto=5;";
+;
+	
+//conexão do banco de dados 
+	Conexao conecta = new Conexao();
+	Connection conexao = conecta.conectar();
+	
+	try{
+		//Preparar a conexão com o comando que será executado nela
+		PreparedStatement ps = conexao.prepareStatement(comandoSQL);
+		
+		//Execução do comando no Banco de Dados e teste do que foi retornado
+		if(ps.executeUpdate() != 0){
+			//Se alterou pelo menos 1 linha, então o Update deu certo
+			conexao.close(); //Fecha a conexão e libera o recurso
+			JOptionPane.showMessageDialog(null, "Item Alterado");
+			return true;
+		}
+	}catch(Exception exc){
+		exc.printStackTrace();
+	}
+	//Caso aconteceu algum erro, retorna falso
+	return false;
+}

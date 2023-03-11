@@ -1,0 +1,31 @@
+public boolean inserirBD(String produto,String categoria,float preco) {
+				//Criação do comando a ser executado no banco de dados
+				String comando = "INSERT INTO tb_produto VALUES(null, ?, ?, ?);";
+				
+				// conexão do banco de dados 
+				Conexao conecta = new Conexao();
+				Connection conexao = conecta.conectar();
+				
+				try{
+					//Preparar a conexão com o comando que será executado nela
+					PreparedStatement ps = conexao.prepareStatement(comando);
+					
+					//Passagem de valores para cada ? do comando INSERT
+					
+					ps.setString(1, produto);
+					ps.setString(2, categoria);
+					ps.setFloat(3, preco);
+					
+					//Execução do comando no Banco de Dados e teste do que foi retornado
+					if(ps.executeUpdate() != 0){
+						//Se alterou pelo menos 1 linha, então o INSERT deu certo
+						conexao.close(); //Fecha a conexão e libera o recurso
+						
+						return true;
+					}
+				}catch(Exception exc){
+					exc.printStackTrace();
+				}
+				//Caso aconteceu algum erro, retorna falso
+				return false;
+			}

@@ -1,0 +1,33 @@
+/*Método recebe um argumento para executar um comando de SELECT 
+	 * no banco de dados e imprimir/exibir os valores que estão na tabela*/
+	public void pesquisaBD(String comando){
+	
+		// conexão do banco de dados 
+		Conexao conecta = new Conexao();
+		Connection conexao = conecta.conectar();
+
+
+		try{
+			//guardando o comando sql
+			PreparedStatement ps = conexao.prepareStatement(comando);
+			
+			//Para recuperar os valores que o comando SELECT vai retornar do
+			//banco de dados, devemos armazenar eles em um objeto do tipo
+			//ResultSet
+			ResultSet resultado = ps.executeQuery();//import java.sql.ResultSet
+
+			//Percorrer os valores que o SELECT buscou
+			System.out.println("Código:\tNome\t\tCategoria\tPreço ");
+			while(resultado.next()){ //Enquanto tiverem linhas na tabela
+				System.out.println(resultado.getInt(1)+"\t" + resultado.getString(2)+
+						"\t\t" + resultado.getString(3)+
+						"\t" + resultado.getFloat(4));
+
+				System.out.println(); //Imprimi uma linha em branco
+			}
+			//Fecha a conexão
+			conexao.close();
+		}catch(Exception exc){
+			exc.printStackTrace();
+		}
+	}

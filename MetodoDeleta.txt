@@ -1,0 +1,25 @@
+public boolean deletarBD() {
+	//Criação do comando a ser executado no banco de dados
+	String comandoSQL = "DELETE FROM tb_produto WHERE id_produto = 6;";
+	
+	/// conexão do banco de dados 
+	Conexao conecta = new Conexao();
+	Connection conexao = conecta.conectar();
+	
+	try{
+		//Preparar a conexão com o comando que será executado nela
+		PreparedStatement ps = conexao.prepareStatement(comandoSQL);
+		
+		//Execução do comando no Banco de Dados e teste do que foi retornado
+		if(ps.executeUpdate() != 0){
+			
+			conexao.close(); //Fecha a conexão e libera o recurso
+			JOptionPane.showMessageDialog(null, "Item Deletado");
+			return true;
+		}
+	}catch(Exception exc){
+		exc.printStackTrace();
+	}
+	//Caso aconteceu algum erro, retorna falso
+	return false;
+}
